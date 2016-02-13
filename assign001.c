@@ -1,7 +1,8 @@
 /**
- * Author: Juan Carlo Mangaliag
+ * Author: Juan Carlo M. Mangaliag
  * Section: CMSC 128 AB-2L
  * Assign 001: Programming a Number Library
+ * Program Description: This is a number library that can convert number into words and vice versa, and add currency and delimiter to numbers.
  * Date: February 13, 2016
  */
 
