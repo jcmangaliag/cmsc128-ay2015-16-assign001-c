@@ -15,7 +15,7 @@ main () {	// contains the whole program
 		switch (menuChoice) {	// executes the user choice in main menu
 			case 1: numToWords();	// converts the number in its equivalent word form
 				break;
-			case 2:
+			case 2: wordsToNum();	// converts the equivalent word form of the number to number
 				break;
 			case 3:
 				break;
