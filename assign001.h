@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-/*
-typedef struct numInWord {
-	char wordList[50];
-} wordNumList;
-*/
+
 int showMenu(int *menuChoice) {	
 // shows the Main Menu Screen and asks for user choice
 
@@ -309,7 +305,7 @@ void wordsToCurrency() {	// asks for a word number and currency and prints the c
 	printf("==========================\n");
 	printf("Enter the number in words and the currency inside '' separated by , and space:\n");
 	getchar();
-	fgets(wordCurrency, 100, stdin);	// asks for a word number and currency
+	fgets(wordCurrency, 120, stdin);	// asks for a word number and currency
 	printf("\nConverted: ");
 
 	i=1;
@@ -331,4 +327,44 @@ void wordsToCurrency() {	// asks for a word number and currency and prints the c
 	currency[j] = '\0';
 
 	printf("%s%d", currency, convertWordsToNum(wordNum));	// prints the currency and the converted number
+}
+
+
+void numberDelimited() {	// asks for a number, delimiter, and no. of jumps and the delimiter will be moved from right to left of the number at no. of jumps 
+
+	char numberDelimited[50], delimiter, number[40], delimitedNumber[40];
+	int jumps, i, j=0;
+
+	printf("\n==========================\n");
+	printf("\tNumberDelimited\n");
+	printf("==========================\n");
+	printf("Enter the number, the delimiter inside '', and no. of jumps separated by , without space:\n");
+	getchar();
+	fgets(numberDelimited, 50, stdin);	// asks for the three arguments: number, delimiter and no. of jumps
+	printf("\nConverted: ");
+
+	i = 0;
+	while (numberDelimited[i] != ',') {	// stores the number from numberDelimited to number variable
+		number[i] = numberDelimited[i];
+		i++;
+	}
+	number[i] = '\0';
+	delimiter = numberDelimited[i+2];	// stores the delimiter from numberDelimited to delimiter variable
+	jumps = numberDelimited[i+5] - 48;	// stores the no. of jumps from numberDelimited to jumps, and also converted to number from Ascii
+
+	j = strlen(number);
+	for (i=strlen(number)-1; i>=0; i--) {	// inserts a delimiter in the number with the count of jumps from right to left
+		if (i == (strlen(number)-1-jumps)) {
+			delimitedNumber[j] = delimiter;	// new variable delimitedNumber contains the number with delimiter already inserted
+			j--;
+			delimitedNumber[j] = number[i];
+		} else
+			delimitedNumber[j] = number[i];
+
+		j--;
+	} 
+
+	delimitedNumber[strlen(number)+1] = '\0';
+	printf("%s", delimitedNumber);	// prints the number with delimiter
+
 }

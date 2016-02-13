@@ -19,7 +19,7 @@ main () {	// contains the whole program
 				break;
 			case 3: wordsToCurrency();	// converts the word form of number to number and adds the currency label at the start
 				break;
-			case 4:
+			case 4: numberDelimited();	// accepts a number and moves the delimiter by a specific number from right to left
 				break;
 		}	
 	} 
