@@ -154,7 +154,7 @@ void numToWords() {	// asks for a whole number and prints its word form
 }
 
 
-int wordToDigitDeterminer(char *wordNumList) {	// returns the number form of the word version of number
+int wordToDigitDeterminer(char *wordNumList) {	// returns the number of the word version of number
 
 	if (strcmp(wordNumList, "one") == 0)
 		return 1;
@@ -221,21 +221,12 @@ int wordToDigitDeterminer(char *wordNumList) {	// returns the number form of the
 	}
 }
 
+int convertWordsToNum(char *wordNumber) {
 
-void wordsToNum() {	// asks for a word form of number and it prints the number
-
-	char wordNumber[100], wordNumList[20][100];
+	char wordNumList[20][100];
 	int i, j=0, k=0, wordQuantity, value=0, hundredthoupass = 0;
 
-	printf("\n==========================\n");
-	printf("\twordsToNum\n");
-	printf("==========================\n");
-	printf("Enter the number in words: ");
-	getchar();
-	fgets(wordNumber, 100, stdin);
-	printf("\nConverted: ");
-
-	for (i=0; i<strlen(wordNumber); i++) {
+	for (i=0; i<strlen(wordNumber); i++) {	// copies the entered words separated by space in an array of strings, wordNumList
 		
 		if (wordNumber[i] != ' ') {
 			wordNumList[j][k] = wordNumber[i];
@@ -248,46 +239,96 @@ void wordsToNum() {	// asks for a word form of number and it prints the number
 	}
 	wordNumList[j][k-1] = '\0';
 
-	wordQuantity = j+1;
+	wordQuantity = j+1;	// total number of words in the wordNumList
 
-	for (i = wordQuantity-1; i>=0; i--) {
-		if (strcmp(wordNumList[i], "million") == 0) {
-
-			value = value + (1000000 * wordToDigitDeterminer(wordNumList[i-1]));
+	for (i = wordQuantity-1; i>=0; i--) {	// checks each word and determines the correct number form
+		if (strcmp(wordNumList[i], "million") == 0) {	
+		// if the word 'million' is encountered, 1 million will be multiplied to previous number
+			value = value + (1000000 * wordToDigitDeterminer(wordNumList[i-1]));	// value contains the number
 			i--;
 		} else if (strcmp(wordNumList[i], "hundred") == 0) {
-
-			if (hundredthoupass == 0) {
+		// if the word 'hundred' is encountered, it will be determined if it should be hundred or hundred thousand
+			if (hundredthoupass == 0) {	// if in hundreds place only, 100 will be multiplied to previous number
 				value += (100 * wordToDigitDeterminer(wordNumList[i-1]));
-			} else {	// if in hundred thousands place
+			} else {	// if in hundred thousands place, 100 thousand will be multiplied to previous number
 				value += (100000 * wordToDigitDeterminer(wordNumList[i-1]));
 			}
 			i--;		
-		} else if (strcmp(wordNumList[i], "thousand") == 0) {
+		} else if (strcmp(wordNumList[i], "thousand") == 0) {	// if the word 'thousand' is encountered, the previous numbers will be checked
 			j=1;
-			hundredthoupass = 1;
+			hundredthoupass = 1;	// makes the next encounter of 'hundred' a hundred thousand
 			while (i>j && strcmp(wordNumList[i-j], "million") != 0 && strcmp(wordNumList[i-j], "hundred") != 0) {
-				j++;
+				j++;	// loop checks the previous numbers until they encounter millions or hundred or if i == j
 			}
 
-			if (j==1 && i==j){
+			if (j==1 && i==j){	// if there is only one number in the thousands place and if it is the highest number, 1000 will be multiplied to that number
 				value += (1000 * wordToDigitDeterminer(wordNumList[i-j]));
 				i--;
-			} else if (j==2 && (i!=j)) {
+			} else if (j==2 && (i!=j)) {	// if there is only one number in the thousands place and if it is not the highest, 1000 will be multiplied to that number
 				value += (1000 * wordToDigitDeterminer(wordNumList[i-(j-1)]));
 				i--;
 			}
-			else if (j==2) {
+			else if (j==2) {	// if there are two numbers in the thousands place and they are the highest number, 1000 will be multiplied to the sum of the two numbers
 				value += (1000 * (wordToDigitDeterminer(wordNumList[i-j]) + wordToDigitDeterminer(wordNumList[i-(j-1)])));
 				i-=2;
-			} else if (j>2) {
+			} else if (j>2) {	// if there are two numbers in the thousands place and they are not the highest numbr, 1000 will be multiplied to the sum of the two numbers
 				value += (1000 * (wordToDigitDeterminer(wordNumList[i-(j-1)]) + wordToDigitDeterminer(wordNumList[i-(j-2)])));
 				i-=2;
 			}
-		} else {
+		} else {	// if the word is not millions, hundreds or thousands, the number will be determined and it will be added
 			value += wordToDigitDeterminer(wordNumList[i]);
 		}
 	}
 
-	printf("%d", value);
+	return value;
+}
+
+void wordsToNum() {	// asks for a word form of number
+	char wordNumber[100];
+	
+
+	printf("\n==========================\n");
+	printf("\twordsToNum\n");
+	printf("==========================\n");
+	printf("Enter the number in words: ");
+	getchar();
+	fgets(wordNumber, 100, stdin);	// asks for a word number
+	printf("\nConverted: ");
+
+	printf("%d", convertWordsToNum(wordNumber));	// calls the function that converts the word number to number and outputs the number
+}
+
+
+void wordsToCurrency() {	// asks for a word number and currency and prints the currency and the number
+
+	char wordCurrency[120], wordNum[100], currency[3];
+	int i, j=0;
+
+	printf("\n==========================\n");
+	printf("\twordsToCurrency\n");
+	printf("==========================\n");
+	printf("Enter the number in words and the currency inside '' separated by , and space:\n");
+	getchar();
+	fgets(wordCurrency, 100, stdin);	// asks for a word number and currency
+	printf("\nConverted: ");
+
+	i=1;
+	while (wordCurrency[i] != '\'') {	// stores the word number in wordNum variable
+		wordNum[j] = wordCurrency[i];
+		j++;
+		i++;
+	}
+	wordNum[j] = '\n';
+	wordNum[j+1] = '\0';
+
+	j=0;
+	i+=4;
+	while (wordCurrency[i] != '\'') {	// stores the currency in currency variable
+		currency[j] = wordCurrency[i];
+		j++;
+		i++;
+	}
+	currency[j] = '\0';
+
+	printf("%s%d", currency, convertWordsToNum(wordNum));	// prints the currency and the converted number
 }
