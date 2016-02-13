@@ -353,7 +353,7 @@ void numberDelimited() {	// asks for a number, delimiter, and no. of jumps and t
 	jumps = numberDelimited[i+5] - 48;	// stores the no. of jumps from numberDelimited to jumps, and also converted to number from Ascii
 
 	j = strlen(number);
-	for (i=strlen(number)-1; i>=0; i--) {	// inserts a delimiter in the number with the count of jumps from right to left
+	for (i=strlen(number)-1; i>=-1; i--) {	// inserts a delimiter in the number with the count of jumps from right to left
 		if (i == (strlen(number)-1-jumps)) {
 			delimitedNumber[j] = delimiter;	// new variable delimitedNumber contains the number with delimiter already inserted
 			j--;
