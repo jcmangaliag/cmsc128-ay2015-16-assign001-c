@@ -1,12 +1,19 @@
+/**
+ * Author: Juan Carlo Mangaliag
+ * Section: CMSC 128 AB-2L
+ * Assign 001: Programming a Number Library
+ * Date: February 13, 2016
+ */
+
 #include "assign001.h"
 
-main () {
+main () {	// contains the whole program
 	int menuChoice = 5;
 	
-	while (showMenu(&menuChoice) != 0) {
+	while (showMenu(&menuChoice) != 0) {	// always shows the main menu, will only end the loop at choice = 0
 
-		switch (menuChoice) {
-			case 1: numToWords();
+		switch (menuChoice) {	// executes the user choice in main menu
+			case 1: numToWords();	// converts the number in its equivalent word form
 				break;
 			case 2:
 				break;
